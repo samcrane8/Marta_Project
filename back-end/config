@@ -1,0 +1,7 @@
+[MySQL Settings]
+username: marta_database
+password: robust_password
+host: localhost
+database: marta_database
+[Server Settings]
+http_port: 5000
