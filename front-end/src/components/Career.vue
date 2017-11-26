@@ -4,7 +4,7 @@
       <h3>Career page</h3>
     </v-flex>
     <v-flex class="text-xs-center" mt-5>
-      <p>This is the Career page.</p>
+      <p>This is the Career page. We'd actually have content if this were a company.</p>
     </v-flex>
   </v-layout>
 </template>

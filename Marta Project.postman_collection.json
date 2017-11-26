@@ -37,13 +37,93 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:5000/login",
+					"raw": "{{url}}:{{port}}/login",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "5000",
+					"port": "{{port}}",
 					"path": [
 						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "psswrd",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"type": "any"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"guy\",\n\t\"password\" : \"pswd1\",\n\t\"isAdmin\" : true\n}"
+				},
+				"url": {
+					"raw": "{{url}}:{{port}}/register_user",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"register_user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Register Passenger",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"guy\",\n\t\"password\" : \"pswd1\",\n\t\"isAdmin\" : true\n}"
+				},
+				"url": {
+					"raw": "{{url}}:{{port}}/register_passenger",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"register_passenger"
 					]
 				},
 				"description": ""

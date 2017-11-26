@@ -4,7 +4,7 @@
       <h3>Pricing</h3>
     </v-flex>
     <v-flex class="text-xs-center" mt-5>
-      <p>This is pricing.</p>
+      <p>This is pricing. We'd have more content if this were a real site.</p>
     </v-flex>
   </v-layout>
 </template>

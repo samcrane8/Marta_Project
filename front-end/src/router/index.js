@@ -2,13 +2,26 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const routerOptions = [
+
   { path: '/', component: 'Landing' },
   { path: '/signin', component: 'Signin' },
   { path: '/signup', component: 'Signup' },
   { path: '/home', component: 'Home' },
   { path: '/career', component: 'Career'},
   { path: '/company', component: 'Company'},
-  { path: '/pricing', component: 'Pricing'}
+  { path: '/pricing', component: 'Pricing'},
+  { path: '/welcomeuser', component: 'WelcomeUser'},
+  { path: '/logout', component: 'Logout'},
+
+  { path: '/admindashboard', component: 'AdminDashboard'},
+  { path: '/stationmanagement', component: 'StationManagement'},
+  { path: '/suspendedcards', component: 'SuspendedCards'},
+  { path: '/breezecardmanagement', component: 'BreezeCardManagement'},
+  { path: '/passengerflowreport', component: 'PassengerFlowReport'},
+
+  { path: '/manageuserbreezecards', component: 'ManageBreezecards'},
+  { path: '/managetrips', component: 'ManageTrips'},
+  { path: '/passengerdashboard', component: 'PassengerDashboard'}
 ]
 
 const routes = routerOptions.map(route => {
