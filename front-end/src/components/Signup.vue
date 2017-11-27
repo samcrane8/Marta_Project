@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     signup: function() {
-      var url = "http://localhost:5000/register_passenger"
+      var url = "http://54.173.144.94:5000/register_passenger"
 
       if (this.breeze_card == 'new_bc') {
         this.auth.breezeID = "NEW_CARD"

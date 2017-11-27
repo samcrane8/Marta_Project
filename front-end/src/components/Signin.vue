@@ -51,7 +51,7 @@ export default {
   methods: {
     login: function() {
 
-      var url = "http://localhost:5000/login"
+      var url = "http://54.173.144.94:5000/login"
       const vm = this;
 
       var credentials = btoa(this.auth.username + ':' + this.auth.password);

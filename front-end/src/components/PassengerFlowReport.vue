@@ -130,7 +130,7 @@ export default {
 	methods: {
 		refresh_flow_report() {
     		//now this is going to be run when they mount.
-	    	var url = "http://localhost:5000/get_flow_report"
+	    	var url = "http://54.173.144.94:5000/get_flow_report"
 	    	var body = {
 	    		"start_date": this.start_picker.date,
 	    		"end_date": this.end_picker.date
