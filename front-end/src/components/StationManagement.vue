@@ -174,6 +174,7 @@ export default {
     	axios.post(url, this.new_stat_vals)
 	        .then((response) => {
 	        	this.new_station = false
+            this.refresh_stations()
 	        })
 	        .catch(error => {
 	          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
