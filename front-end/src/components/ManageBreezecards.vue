@@ -113,6 +113,9 @@ export default {
   },
   beforeMount() {
   	this.refresh_breezecards()
+  },
+  mounted() {
+    this.refresh_breezecards()
   }
 }
 </script>
