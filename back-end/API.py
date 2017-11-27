@@ -177,6 +177,20 @@ class API():
 		return return_string 
 
 	@staticmethod
+	def add_new_card():
+		parsed_json = request.get_json()
+
+		card_id = parsed_json["card_id"]
+		value = parsed_json["value"]
+		owner = parsed_json["owner"]
+
+		sql_queries.make_new_card(owner, value, card_id)
+
+		dict_local = {'code': 200}
+		return_string = json.dumps(dict_local, sort_keys=True, indent=4, separators=(',', ': '))
+		return return_string
+
+	@staticmethod
 	def update_card():
 		parsed_json = request.get_json()
 
@@ -273,6 +287,7 @@ app.add_url_rule('/get_breezecards', 'get_breezecards', API.get_breezecards, met
 app.add_url_rule('/get_flow_report', 'get_flow_report', API.get_flow_report, methods=['POST'])
 app.add_url_rule('/resolve_conflict', 'resolve_conflict', API.resolve_conflict, methods=['POST'])
 app.add_url_rule('/update_card', 'update_card', API.update_card, methods=['POST'])
+app.add_url_rule('/add_new_card', 'add_new_card', API.add_new_card, methods=['POST'])
 # app.add_url_rule('/logoff', 'logoff', User.logoff, methods=['GET'])
 app.add_url_rule('/get_stations', 'get_stations', API.get_stations, methods=['GET'])
 app.add_url_rule('/add_station', 'add_station', API.add_station, methods=['POST'])

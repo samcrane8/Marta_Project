@@ -69,10 +69,10 @@
 	          <v-btn flat color="blue" @click.prevent="new_station = true">Create New Station</v-btn>
 	      </v-flex>
 	    </v-card-actions>
-	</v-card>
-	<v-card v-if="new_station" style="margin: 20px; padding: 20px;">
-		<v-layout column>
-		 <h3 class="headline mb-0">Create New Station</h3>
+	  </v-card>
+	  <v-card v-if="new_station" style="margin: 20px; padding: 20px;">
+		  <v-layout column>
+		    <h3 class="headline mb-0">Create New Station</h3>
           <v-flex>
             <v-text-field
               name="station_name"
@@ -128,7 +128,7 @@
 	        	<v-btn flat @click.prevent="new_station = false" color="red">Cancel</v-btn>
 	        </v-flex>
 	    </v-card-actions>
-	</v-card>
+	  </v-card>
   </v-layout>
 </template>
 
