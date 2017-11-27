@@ -73,7 +73,7 @@ class sql_queries():
 	def get_stations():
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "SELECT station.StopID, EntryFare, IsOpenFlagI, StationName, IsBusFlag, Roads from station left join intersection on station.StopID = intersection.StopID"
+		to_execute = "SELECT STATION.StopID, EntryFare, IsOpenFlagI, StationName, IsBusFlag, Roads from STATION left join INTERSECTION on STATION.StopID = INTERSECTION.StopID"
 		cursor.execute(to_execute)
 		data_get = cursor.fetchall()
 		data_base.commit()
@@ -123,7 +123,7 @@ class sql_queries():
 	def add_conflict(UName, CardID):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "INSERT into conflict values ('{0}', '{1}', CURRENT_TIMESTAMP)".format(UName, CardID)
+		to_execute = "INSERT into CONFLICT values ('{0}', '{1}', CURRENT_TIMESTAMP)".format(UName, CardID)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchall()
 		data_base.commit()
@@ -133,7 +133,7 @@ class sql_queries():
 	def get_conflicts():
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "SELECT conflict.UName, conflict.CardID, EventDT, Value, breezecard.UName from conflict inner join breezecard on breezecard.CardID = conflict.CardID;"
+		to_execute = "SELECT CONFLICT.UName, CONFLICT.CardID, EventDT, Value, BREEZECARD.UName from CONFLICT inner join BREEZECARD on BREEZECARD.CardID = CONFLICT.CardID;"
 		cursor.execute(to_execute)
 		data_get = cursor.fetchall()
 		data_base.commit()
@@ -143,7 +143,7 @@ class sql_queries():
 	def check_conflict(breeze_id):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "SELECT UName from breezecard where CardID = '{0}'".format(breeze_id)
+		to_execute = "SELECT UName from BREEZECARD where CardID = '{0}'".format(breeze_id)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchone()
 		data_base.commit()
@@ -153,7 +153,7 @@ class sql_queries():
 	def remove_conflict(uname, card_id):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "DELETE from conflict where CardID = '{0}' and UName = '{1}'".format(card_id, uname)
+		to_execute = "DELETE from CONFLICT where CardID = '{0}' and UName = '{1}'".format(card_id, uname)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchone()
 		data_base.commit()
@@ -163,7 +163,7 @@ class sql_queries():
 	def update_card_owner(new_owner, card_id):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "UPDATE breezecard set UName = '{0}' where CardID = '{1}'".format(new_owner, card_id)
+		to_execute = "UPDATE BREEZECARD set UName = '{0}' where CardID = '{1}'".format(new_owner, card_id)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchone()
 		data_base.commit()
@@ -173,7 +173,7 @@ class sql_queries():
 	def update_card_value(new_value, card_id):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "UPDATE breezecard set Value = '{0}' where CardID = '{1}'".format(new_value, card_id)
+		to_execute = "UPDATE BREEZECARD set Value = '{0}' where CardID = '{1}'".format(new_value, card_id)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchone()
 		data_base.commit()
@@ -183,7 +183,7 @@ class sql_queries():
 	def get_breezecards():
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "SELECT CardID, Value, UName FROM breezecard;"
+		to_execute = "SELECT CardID, Value, UName FROM BREEZECARD;"
 		cursor.execute(to_execute)
 		data_get = cursor.fetchall()
 		data_base.commit()
@@ -193,7 +193,7 @@ class sql_queries():
 	def get_flow_report(start_date, end_date):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = " SELECT StationName, (select count(*) from trip where StartStopID = station.StopID and StartTime > '{0}' and StartTime < '{1}') as pass_in, (select count(*) from trip  where EndStopID = station.StopID and StartTime > '{0}' and StartTime < '{1}') as pass_out, (select pass_in) - (select pass_out) as flow, (select ifnull(sum(TripFare),0) from trip where StartStopID = station.StopID and StartTime > '{0}' and StartTime < '{1}') as revenue from station;";
+		to_execute = " SELECT StationName, (select count(*) from TRIP where StartStopID = STATION.StopID and StartTime > '{0}' and StartTime < '{1}') as pass_in, (select count(*) from TRIP  where EndStopID = STATION.StopID and StartTime > '{0}' and StartTime < '{1}') as pass_out, (select pass_in) - (select pass_out) as flow, (select ifnull(sum(TripFare),0) from TRIP where StartStopID = STATION.StopID and StartTime > '{0}' and StartTime < '{1}') as revenue from STATION;";
 		to_execute = to_execute.format(start_date,end_date)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchall()

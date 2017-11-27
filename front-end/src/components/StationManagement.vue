@@ -171,7 +171,6 @@ export default {
   methods:{
   	save_station() {
   		var url = "http://54.173.144.94:5000/add_station"
-  		alert(JSON.stringify(this.new_stat_vals))
     	axios.post(url, this.new_stat_vals)
 	        .then((response) => {
 	        	this.new_station = false
