@@ -194,6 +194,7 @@ class API():
 		return_string = json.dumps(dict_local, sort_keys=True, indent=4, separators=(',', ': '))
 		return return_string
 
+
 	@staticmethod
 	def is_valid_user(auth):
 		if auth is None or auth.username is None or auth.password is None:

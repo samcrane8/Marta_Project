@@ -170,7 +170,7 @@ export default {
   },
   methods:{
   	save_station() {
-  		var url = "http://localhost:5000/add_station"
+  		var url = "http://54.173.144.94:5000/add_station"
   		alert(JSON.stringify(this.new_stat_vals))
     	axios.post(url, this.new_stat_vals)
 	        .then((response) => {
@@ -182,7 +182,7 @@ export default {
   	},
   	refresh_stations() {
   		//now this is going to be run when they mount.
-    	var url = "http://localhost:5000/get_stations"
+    	var url = "http://54.173.144.94:5000/get_stations"
 
     	axios.get(url)
 	        .then((response) => {
@@ -194,7 +194,7 @@ export default {
 	      });
   	},
   	update_station() {
-  		var url = "http://localhost:5000/update_station"
+  		var url = "http://54.173.144.94:5000/update_station"
 
     	axios.post(url, this.station_details)
 	        .then((response) => {

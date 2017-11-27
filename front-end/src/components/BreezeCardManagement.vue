@@ -98,7 +98,7 @@ export default {
   methods: {
   	refresh_breezecards() {
     	//now this is going to be run when they mount.
-	    var url = "http://localhost:5000/get_breezecards"
+	    var url = "http://54.173.144.94:5000/get_breezecards"
 	    axios.get(url)
 	        .then((response) => {
 	          this.items = response.data
@@ -109,7 +109,7 @@ export default {
     },
     update_card() {
     	//now this is going to be run when they mount.
-	    var url = "http://localhost:5000/update_card"
+	    var url = "http://54.173.144.94:5000/update_card"
     	alert(JSON.stringify(this.card_update))
 	    axios.post(url, this.card_update)
 	        .then((response) => {
