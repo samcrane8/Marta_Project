@@ -3,6 +3,7 @@ import uuid
 from flaskapp import app
 from flask import request, Response, send_file, send_from_directory, make_response
 import datetime
+from random import randint
 
 from sql_queries import sql_queries
 
@@ -63,18 +64,6 @@ class API():
 		email = parsed_json["email"]
 		breeze_id = parsed_json["breezeID"]
 
-		make_conflict = False
-
-		if breeze_id == "NEW_CARD":
-			card_id = str(uuid.uuid4())
-		else:
-			#not a new card.
-			card_id = parsed_json["breezeID"]
-			#could possibly cause conflict.
-			if sql_queries.check_conflict(card_id) is not None:
-				#then it's a conflict
-				make_conflict = True
-
 		isAdmin = False
 
 		if sql_queries.is_username_taken(username):
@@ -90,8 +79,16 @@ class API():
 		sql_queries.register_user(username, password, isAdmin)
 		sql_queries.register_passenger(username, email)
 
-		if make_conflict:
-			sql_queries.add_conflict(username, card_id)
+		if breeze_id == "NEW_CARD":
+			card_id = str(randint(10**15,10**16-1))
+			sql_queries.make_new_card(username, 0, card_id)
+		else:
+			#not a new card.
+			card_id = parsed_json["breezeID"]
+			#could possibly cause conflict.
+			if sql_queries.check_conflict(card_id) is not None:
+				#then it's a conflict
+				sql_queries.add_conflict(username, card_id)
 
 		dict_local = {'code': 200}
 		return_string = json.dumps(dict_local, sort_keys=True, indent=4, separators=(',', ': '))

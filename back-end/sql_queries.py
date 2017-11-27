@@ -170,6 +170,16 @@ class sql_queries():
 		return data_get
 
 	@staticmethod
+	def make_new_card(owner, value, card_id):
+		data_base = sql_queries.mysql_connection()
+		cursor = data_base.cursor()
+		to_execute = "INSERT INTO BREEZECARD VALUES ('{0}', {1}, '{2}');".format(card_id, value, owner)
+		cursor.execute(to_execute)
+		data_get = cursor.fetchone()
+		data_base.commit()
+		return data_get
+
+	@staticmethod
 	def update_card_value(new_value, card_id):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
