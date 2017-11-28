@@ -200,6 +200,16 @@ class sql_queries():
 		return data_get
 
 	@staticmethod
+	def get_user_breezecards(owner):
+		data_base = sql_queries.mysql_connection()
+		cursor = data_base.cursor()
+		to_execute = "SELECT CardID, Value, UName FROM BREEZECARD where UName = '{0}';".format(owner)
+		cursor.execute(to_execute)
+		data_get = cursor.fetchall()
+		data_base.commit()
+		return data_get
+
+	@staticmethod
 	def get_flow_report(start_date, end_date):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()

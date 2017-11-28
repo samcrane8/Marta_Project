@@ -41,7 +41,7 @@
     
     <main style="background-color:white; margin-top: 30px;">
       <v-container pa-0 fluid>
-        <router-view v-on:setPassengerToolbar = "setPassengerToolbar" v-on:logout="logout" v-on:setAdminToolbar = "setAdminToolbar" v-on:home="goHome" v-on:setAuth="setAuth"></router-view>
+        <router-view :user='userinfo' v-on:setPassengerToolbar = "setPassengerToolbar" v-on:logout="logout" v-on:setAdminToolbar = "setAdminToolbar" v-on:home="goHome" v-on:login="login"></router-view>
       </v-container>
     </main>
     
@@ -54,6 +54,7 @@
   export default {
     data () {
       return {
+        userinfo: null,
         appTitle: 'HSK',
         home: "/",
         sidebar: false,
@@ -64,8 +65,8 @@
           { title: 'Register', path: '/signup', icon: 'lock_open', color: "green"}
         ],
         passengerToolbar: [
-          { title: 'Manage Breezecards', path: '/manageuserbreezecards', icon: 'home', color: "grey"},
-          { title: 'Manage Trips', path: '/managetrips', icon: 'home', color: "grey"},
+          { title: 'Breezecards', path: '/manageuserbreezecards', icon: 'home', color: "grey"},
+          { title: 'Trips', path: '/managetrips', icon: 'home', color: "grey"},
           { title: 'Logout', path: '/logout', icon: 'lock_close', color: "red" }
         ],
         adminToolbar: [
@@ -80,15 +81,24 @@
           { title: 'Company', path: '/company', icon: 'face', color: "grey" },
           { title: 'Login', path: '/signin', icon: 'face', color: "blue"},
           { title: 'Register', path: '/signup', icon: 'lock_open', color: "green"}
-        ],
-        profile: {
-          auth: { username: "", password: ""}
-        }
+        ]
       }
     },
     methods: {
-      setAuth(auth){
-        this.profile.auth = auth
+      login(userinfo){
+        this.userinfo = userinfo
+        this.load_bar()
+        this.goHome()
+      },
+      load_bar(){
+        if (this.userinfo == null) {
+          this.setStandardToolbar()
+          this.goHome()
+        } else if (this.userinfo.isadmin) {
+          this.setAdminToolbar()
+        } else {
+          this.setPassengerToolbar()
+        }
       },
       setPassengerToolbar() {
         this.toolbar = this.passengerToolbar
@@ -98,13 +108,21 @@
         this.toolbar = this.adminToolbar
         this.home = "/admindashboard"
       },
-      logout() {
+      setStandardToolbar() {
         this.toolbar = this.standardToolbar
         this.home = "/home"
+      },
+      logout() {
+        this.userinfo = null
+        this.load_bar()
+        this.goHome()
       },
       goHome() {
         router.push(this.home)
       }
+    },
+    beforeMount() {
+      this.load_bar()
     }
   }
 </script>

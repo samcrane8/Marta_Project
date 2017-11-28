@@ -77,7 +77,7 @@
         </v-layout>
       <v-card-actions>
         <v-flex>
-          <v-btn flat color="green" @click="create_new_card">Create Card</v-btn>
+          <v-btn flat color="green" @click="new_card.visible=false;create_new_card()">Create Card</v-btn>
         </v-flex>
         <v-flex class="text-xs-right">
             <v-btn flat @click.prevent="new_card.visible = false" color="red">Cancel</v-btn>
@@ -96,6 +96,7 @@ import router from '@/router'
 Vue.use(VueAxios, axios)
 
 export default {
+  props: ['user'],
   data () {
     return {
       max25chars: (v) => v.length <= 25 || 'Input too long!',
@@ -114,15 +115,20 @@ export default {
       },
       new_card: {
         visible: false,
-        card_id: ''
+        card_id: '',
+        owner: this.user.auth.username,
+        value: 0
       }
     }
   },
   methods: {
   	refresh_breezecards() {
     	//now this is going to be run when they mount.
-	    var url = "http://54.173.144.94:5000/get_breezecards"
-	    axios.get(url)
+	    var url = "http://54.173.144.94:5000/get_user_breezecards"
+      var body = {
+        
+      }
+	    axios.post(url, body)
 	        .then((response) => {
 	          this.items = response.data
 	        })
@@ -147,12 +153,10 @@ export default {
 	    });
     },
     create_new_card() {
-      alert('creating card!')
-      var url = "http://54.173.144.94:5000/update_card"
-      axios.post(url, this.card_update)
+      var url = "http://54.173.144.94:5000/add_new_card"
+      axios.post(url, this.new_card)
           .then((response) => {
             this.refresh_breezecards()
-            this.card_update.value = 0
           })
           .catch(error => {
             alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')

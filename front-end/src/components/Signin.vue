@@ -61,14 +61,11 @@ export default {
       })
         .then((response) => {
           if (response.data.code == 200) {
-            if (response.data.isAdmin) {
-              router.push('/admindashboard')
-              vm.$emit('setAdminToolbar')  
-            } else {
-              router.push('/passengerdashboard')
-              vm.$emit('setPassengerToolbar')  
+            var userinfo = {
+              auth: vm.auth,
+              isadmin: response.data.isAdmin
             }
-            vm.$emit('setAuth',vm.auth)
+            vm.$emit('login',userinfo)
           } else {
             alert('Bad Login!')
           }
@@ -76,6 +73,7 @@ export default {
         .catch(error => {
           alert('Hmmm something went wrong with our servers!! Sorry!')
       });
+
     }
   }  
 }

@@ -149,7 +149,29 @@ class API():
 			array_local += [b]
 
 		return_string = json.dumps(array_local, sort_keys=True, indent=4, separators=(',', ': '))
-		return return_string 
+		return return_string
+
+	@staticmethod
+	def get_user_breezecards():
+
+		parsed_json = request.json()
+
+		owner = parsed_json["owner"]
+
+		breezecards = sql_queries.get_user_breezecards(owner)
+
+		array_local = []
+
+		for breezecard in breezecards:
+			card_id, value, uname = breezecard
+			b={}
+			b["card_id"] =card_id
+			b["value"] = float(value)
+			b["owner"] = uname
+			array_local += [b]
+
+		return_string = json.dumps(array_local, sort_keys=True, indent=4, separators=(',', ': '))
+		return return_string
 
 	@staticmethod
 	def get_flow_report():
@@ -284,6 +306,7 @@ class API():
 app.add_url_rule('/login', 'login', API.login, methods=['GET'])
 app.add_url_rule('/get_conflicts', 'get_conflicts', API.get_conflicts, methods=['GET'])
 app.add_url_rule('/get_breezecards', 'get_breezecards', API.get_breezecards, methods=['GET'])
+app.add_url_rule('/get_user_breezecards', 'get_user_breezecards', API.get_user_breezecards, methods=['POST'])
 app.add_url_rule('/get_flow_report', 'get_flow_report', API.get_flow_report, methods=['POST'])
 app.add_url_rule('/resolve_conflict', 'resolve_conflict', API.resolve_conflict, methods=['POST'])
 app.add_url_rule('/update_card', 'update_card', API.update_card, methods=['POST'])
