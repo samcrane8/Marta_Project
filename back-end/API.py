@@ -154,7 +154,7 @@ class API():
 	@staticmethod
 	def get_user_breezecards():
 
-		parsed_json = request.json()
+		parsed_json = request.get_json()
 
 		owner = parsed_json["owner"]
 
