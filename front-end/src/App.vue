@@ -93,7 +93,6 @@
       load_bar(){
         if (this.userinfo == null) {
           this.setStandardToolbar()
-          this.goHome()
         } else if (this.userinfo.isadmin) {
           this.setAdminToolbar()
         } else {
@@ -110,7 +109,7 @@
       },
       setStandardToolbar() {
         this.toolbar = this.standardToolbar
-        this.home = "/home"
+        this.home = "/"
       },
       logout() {
         this.userinfo = null

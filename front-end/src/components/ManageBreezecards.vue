@@ -126,7 +126,7 @@ export default {
     	//now this is going to be run when they mount.
 	    var url = "http://54.173.144.94:5000/get_user_breezecards"
       var body = {
-        
+        "owner":this.user.auth.username
       }
 	    axios.post(url, body)
 	        .then((response) => {

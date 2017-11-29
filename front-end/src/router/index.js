@@ -6,7 +6,6 @@ const routerOptions = [
   { path: '/', component: 'Landing' },
   { path: '/signin', component: 'Signin' },
   { path: '/signup', component: 'Signup' },
-  { path: '/home', component: 'Home' },
   { path: '/career', component: 'Career'},
   { path: '/company', component: 'Company'},
   { path: '/pricing', component: 'Pricing'},
