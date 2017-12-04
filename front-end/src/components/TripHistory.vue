@@ -128,8 +128,6 @@ export default {
           "start_time": this.start_picker.date,
           "end_time": this.end_picker.date
         }
-        alert(JSON.stringify(body))
-
         axios.post(url, body)
             .then((response) => {
               this.trips = response.data
