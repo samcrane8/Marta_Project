@@ -2,6 +2,7 @@
 from flask import Flask
 import MySQLdb
 import configparser
+import hashlib
 
 # mysql = None
 
@@ -10,6 +11,7 @@ class sql_queries():
 
 	@staticmethod
 	def get_user(username, password):
+		password = hashlib.md5(password.encode('ascii')).hexdigest()
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
 		to_execute = "SELECT * from USER where username = '{0}' and password = '{1}'".format(username, password)
@@ -30,6 +32,7 @@ class sql_queries():
 
 	@staticmethod
 	def register_user(username, password, isAdmin):
+		password = hashlib.md5(password.encode('ascii')).hexdigest()
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
 		to_execute = "INSERT into USER values ('{0}','{1}',{2})".format(username, password, isAdmin)

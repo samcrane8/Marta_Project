@@ -58,8 +58,6 @@
         home: "/",
         sidebar: false,
         standardToolbar: [
-          { title: 'Career', path: '/career', icon: 'home', color: "grey"},
-          { title: 'Company', path: '/company', icon: 'face', color: "grey" },
           { title: 'Login', path: '/signin', icon: 'face', color: "blue"},
           { title: 'Register', path: '/signup', icon: 'lock_open', color: "green"}
         ],

@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       auth: {"username": '', "password": ''},
-      response: {}
+      response: {},
     }
   },
   methods: {
@@ -73,7 +73,6 @@ export default {
         .catch(error => {
           alert('Hmmm something went wrong with our servers!! Sorry!')
       });
-
     }
   }  
 }

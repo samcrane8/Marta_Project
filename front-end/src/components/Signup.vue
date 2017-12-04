@@ -21,6 +21,7 @@
               label="Email"
               id="email"
               type="email"
+              :rules="[rules.email]"
               v-model="auth.email"
               required></v-text-field>
           </v-flex>
@@ -54,7 +55,9 @@
               label="Breeze Card ID"
               id="breezecardid"
               type="breezecardid"
+              :rules="[rules.breezecard]"
               v-model="auth.breezeID"
+              counter=16
               required>
             </v-text-field>
           </v-flex>
@@ -80,7 +83,23 @@ export default {
     return {
       breeze_card : null,
       auth: {"username": '', "email": '', "password": '', "confirmPassword": '', "breezeID": ''},
-      response: {}
+      response: {},
+      rules: {
+        required: (value) => !!value || 'Required.',
+        email: (value) => {
+          const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid e-mail.'
+        },
+        breezecard: (value) => {
+          const pattern = /\d{16}/g
+          return pattern.test(value) || 'Invalid breezecard.'
+        },
+        notempty: (value) => {
+          /^$|\s+/
+          const pattern = /^$|\s+/
+          return pattern.test(value) || 'Cannot be empty.'
+        }
+      }
     }
   },
   methods: {
@@ -89,6 +108,23 @@ export default {
 
       if (this.breeze_card == 'new_bc') {
         this.auth.breezeID = "NEW_CARD"
+      }
+
+      if (this.rules.email(this.auth.email) == 'Invalid e-mail.') {
+        alert('Bad Email!')
+        return
+      } else if (this.auth.username == ''){
+        alert('Bad Username!')
+        return
+      } else if (this.auth.password == '' || this.auth.password.length < 8){
+        alert('Bad Password!')
+        return
+      } else if (this.auth.password != this.auth.confirmPassword){
+        alert('Password and Confirm Password are not the same.')
+        return
+      } else if (this.auth.breezeID != "NEW_CARD" && this.rules.breezecard(this.auth.breezeID) == 'Invalid breezecard.') {
+        alert('Bad BreezeID.')
+        return
       }
 
       const vm = this;
