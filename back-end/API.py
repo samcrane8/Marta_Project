@@ -354,7 +354,7 @@ class API():
 
 		data = sql_queries.get_current_trip(card_id)
 
-		if len(data) == 0:
+		if data is None or len(data) == 0:
 			StartStopID, TripFare = (None, None)
 		else:
 			StartStopID, TripFare = data
