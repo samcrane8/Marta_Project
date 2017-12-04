@@ -13,6 +13,7 @@
 		        v-model="breezecard_select"
 		        label="Select Breezecard"
 		        single-line
+		        @input="get_current_trip()"
 		        bottom
 	        ></v-select>
 	    </v-flex>
@@ -75,7 +76,8 @@ export default {
 	      stations: [],
 	      end_stations: [],
 	      breezecard_select: {
-	      	value: ''
+	      	value: '',
+	      	card_id: 0
 	      },
 	      station_start_select: null,
 	      station_end_select: null,
@@ -89,8 +91,8 @@ export default {
 	        menu: false 
 	      },
 	      current_trip: {
-	      	start_station: null,
-	      	live: false
+	      	live: false,
+	      	tripfare: 0
 	      }
 	    }
 	},
@@ -127,23 +129,67 @@ export default {
 		    });
 	    },
 	    start_trip() {
-	    	this.current_trip.live = true
 
 	    	var url = "http://54.173.144.94:5000/start_trip"
 
-	    	axios.get(url)
+	    	var body = {
+				"stopid": station_start_select.stop_id,
+				"card_id": breezecard_select.card_id,
+				"trip_fare": station_start_select.fare
+			}
+
+	    	axios.post(url, body)
 		        .then((response) => {
 		          var stations = response.data
 		          this.stations = stations
+	    	      this.current_trip.live = true
 		        })
 		        .catch(error => {
 		          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
 		      });
 	    },
 	    end_trip() {
-			this.current_trip.live = false
 
 			var url = "http://54.173.144.94:5000/end_trip"
+
+			var body = {
+				"endstopid": station_end_select.stop_id,
+				"card_id": breezecard_select.card_id
+			}
+
+			axios.post(url, body)
+		        .then((response) => {
+		          var stations = response.data
+		          this.stations = stations
+				  this.current_trip.live = false
+		        })
+		        .catch(error => {
+		          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
+		      });
+	    }, 
+	    get_current_trip() {
+	    	alert('it did it')
+			var url = "http://54.173.144.94:5000/get_current_trip"
+
+			var body = {
+				card_id: breezecard_select.card_id
+			}
+
+			axios.post(url, body)
+		        .then((response) => {
+		          station = response.data["station"]
+		          tripfare = response.data["tripfare"]
+		          if (station == null) {
+		          	this.current_trip.live = false
+		          } else {
+		            this.station_start_select = station
+		            this.current_trip.tripfare = tripfare
+		            this.current_trip.live = true
+		          }
+		        })
+		        .catch(error => {
+		          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
+		      });
 	    }
 	},
     beforeMount(){

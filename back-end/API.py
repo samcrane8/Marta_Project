@@ -353,15 +353,32 @@ class API():
 		card_id = parsed_json["card_id"]
 
 		data = sql_queries.get_current_trip(card_id)
-
-		if data is None or len(data) == 0:
-			StartStopID, TripFare = (None, None)
-		else:
-			StartStopID, TripFare = data
-
 		return_dict = {}
-		return_dict["startstopid"] = StartStopID
-		return_dict["tripfare"] = TripFare
+
+		if data is None:
+			return_dict = { station: None, TripFare: None}
+		else:
+			StopID, EntryFare, IsOpenFlagI, StationName, IsBusFlag, roads, TripFare = data
+			s={}
+			s["station_name"] = StationName
+			s["stop_id"] = StopID
+			s["fare"] = float(EntryFare)
+			if roads is None:
+				roads = ''
+			s["nearest_intersection"] = roads
+			if IsOpenFlagI == 1:
+				IsOpenFlagI = "OPEN"
+			else:
+				IsOpenFlagI = "CLOSED"
+			s["isopen"] = IsOpenFlagI
+			if IsBusFlag == 1:
+				IsBusFlag = True
+			else:
+				IsBusFlag = False
+			s["isBus"] = IsBusFlag
+			return_dict["station"] = s
+			return_dict["tripfare"] = TripFare
+		
 		return_string = json.dumps(return_dict, sort_keys=True, indent=4, separators=(',', ': '))
 		return return_string
 

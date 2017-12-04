@@ -252,9 +252,10 @@ class sql_queries():
 
 	@staticmethod
 	def get_current_trip(card_id):
+
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "SELECT StartStopID, TripFare from TRIP where IsDoneFlag = 0 and CardID='{0}'".format(card_id)
+		to_execute = "SELECT STATION.StopID, EntryFare, IsOpenFlagI, StationName, IsBusFlag, Roads, (TRIP.TripFare) from STATION left join INTERSECTION on STATION.StopID = INTERSECTION.StopID inner join TRIP on TRIP.StartStopID = STATION.StopID where TRIP.CardID = '{0}' and TRIP.IsDoneFlag = 0;".format(card_id)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchone()
 		data_base.commit()
