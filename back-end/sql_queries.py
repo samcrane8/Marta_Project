@@ -221,10 +221,10 @@ class sql_queries():
 		return data_get
 
 	@staticmethod
-	def trip_history(card_id):
+	def trip_history(username):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "SELECT StartTime, StartStopID, TripFare, EndStopID FROM TRIP where CardID = '{0}' and IsDoneFlag = true;".format(card_id)
+		to_execute = "SELECT StartTime, StartStopID, TripFare, EndStopID FROM TRIP inner join BREEZECARD on TRIP.CardID = BREEZECARD.CardID inner join USER on BREEZECARD.UName = USER.UserName where User.UserName = '{0}';".format(username)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchall()
 		data_base.commit()

@@ -306,16 +306,19 @@ class API():
 	def trip_history():
 		parsed_json = request.get_json()
 
-		card_id = parsed_json["card_id"]
+		username = parsed_json["username"]
 
-		trips = sql_queries.trip_history(card_id)
+		trips = sql_queries.trip_history(username)
 		array_local = []
 
 		for trip in trips:
 			t={}
 			StartTime, StartStopID, TripFare, EndStopID = trip
-			t["start_time"] = StartTime
-			t[""]
+			t["time"] = str(StartTime)
+			t["source"] = StartStopID
+			t["destination"] = TripFare
+			t["fare_paid"] = EndStopID
+			array_local += [t]
 
 		return_string = json.dumps(array_local, sort_keys=True, indent=4, separators=(',', ': '))
 		return return_string

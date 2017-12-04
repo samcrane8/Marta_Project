@@ -35,7 +35,9 @@
 				    <v-btn primary flat type="submit" v-on:click="start_trip()">Start Trip</v-btn>
 				  </v-flex>
 			</v-card-actions>
-	    	<h4 v-if="current_trip.live" class="headline mb-0">Trip in Progress</h4>
+	    	<h4 v-if="current_trip.live" class="headline mb-0">Trip in Progress: {{this.current_trip.station_name}}</h4>
+	    	<v-spacer/>
+	    	<h4 v-if="current_trip.live" class="headline mb-0">Trip Fare: {{this.current_trip.tripfare}}</h4>
 	    	<h4 v-if="!current_trip.live" class="headline mb-0">No Current Trip</h4>
 		</v-layout>
 		<v-layout>
@@ -92,7 +94,8 @@ export default {
 	      },
 	      current_trip: {
 	      	live: false,
-	      	tripfare: 0
+	      	tripfare: 0,
+	      	station_name: ''
 	      }
 	    }
 	},
@@ -105,6 +108,7 @@ export default {
 		        .then((response) => {
 		          var stations = response.data
 		          this.stations = stations
+		          this.end_stations = stations
 		        })
 		        .catch(error => {
 		          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
@@ -140,9 +144,8 @@ export default {
 
 	    	axios.post(url, body)
 		        .then((response) => {
-		          var stations = response.data
-		          this.stations = stations
 	    	      this.current_trip.live = true
+	    	      this.current_trip.tripfare = this.station_start_select.fare
 		        })
 		        .catch(error => {
 		          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
@@ -160,8 +163,9 @@ export default {
 			axios.post(url, body)
 		        .then((response) => {
 		          var stations = response.data
-		          this.stations = stations
-				  this.current_trip.live = false
+				  this.current_trip.tripfare = 0
+		          this.current_trip.live = false
+		          this.current_trip.station_name = ''
 		        })
 		        .catch(error => {
 		          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
@@ -176,15 +180,14 @@ export default {
 
 			axios.post(url, body)
 		        .then((response) => {
-		          alert(JSON.stringify(response.data) )
-		          station = response.data["station"]
-		          tripfare = response.data["tripfare"]
+		          var station = response.data.station
+		          var tripfare = response.data.tripfare
 		          if (station == null) {
 		          	this.current_trip.live = false
 		          } else {
-		            this.station_start_select = station
 		            this.current_trip.tripfare = tripfare
 		            this.current_trip.live = true
+		            this.current_trip.station_name = station.station_name
 		          }
 		        })
 		        .catch(error => {

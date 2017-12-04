@@ -56,17 +56,6 @@
             </v-date-picker>
           </v-menu>
         </v-flex>
-        <v-spacer/>
-        <v-flex xs11 sm5>
-        <v-select
-            :items="breezecards"
-            item-text="card_id"
-            v-model="breezecard_select"
-            label="Select Breezecard"
-            single-line
-            bottom
-          ></v-select>
-      </v-flex>
       <v-card-actions class="text-xs-left">
         <v-flex>
             <v-btn primary flat type="submit" v-on:click="refresh_flow_report()">REFRESH</v-btn>
@@ -83,11 +72,11 @@
         >
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
-            <td>{{ props.item.station_name }}</td>
-            <td class="text-xs-center">{{ props.item.pass_in }}</td>
-            <td class="text-xs-center">{{ props.item.pass_out }}</td>
-            <td class="text-xs-center">{{ props.item.flow }}</td>
-            <td class="text-xs-center">${{ props.item.revenue }}</td>
+            <td>{{ props.item.time }}</td>
+            <td class="text-xs-center">{{ props.item.source }}</td>
+            <td class="text-xs-center">{{ props.item.destination }}</td>
+            <td class="text-xs-center">{{ props.item.fare_paid }}</td>
+            <td class="text-xs-center">${{ props.item.card_id }}</td>
         </tr>
         </template>
       </v-data-table>
@@ -108,8 +97,6 @@ export default {
   data () {
       return {
         search: '',
-        breezecard_select: null,
-        breezecards: [],
         headers: [
           {text: 'Time', value: 'time', align: 'left'},
           { text: 'Source', value: 'source', align: 'center'},
@@ -132,15 +119,18 @@ export default {
       trip_history() {
         //now this is going to be run when they mount.
         var url = "http://54.173.144.94:5000/trip_history"
-        var body = {
-          card_id: breezecard_select
+        if (this.user == null) {
+          this.$emit('logout')
+          this.$emit('goHome')
         }
-        alert(breezecard_select)
+        var body = {
+          "username": this.user.auth.username
+        }
+        alert(JSON.stringify(this.breezecard_select.card_id) )
 
         axios.post(url, body)
             .then((response) => {
-              var stations = response.data
-              this.stations = stations
+              this.trips = response.data
             })
             .catch(error => {
               alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
