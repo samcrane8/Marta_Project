@@ -307,8 +307,10 @@ class API():
 		parsed_json = request.get_json()
 
 		username = parsed_json["username"]
+		start_time = parsed_json["start_time"]
+		end_time = parsed_json["end_time"]
 
-		trips = sql_queries.trip_history(username)
+		trips = sql_queries.trip_history(username, start_time, end_time)
 		array_local = []
 
 		for trip in trips:

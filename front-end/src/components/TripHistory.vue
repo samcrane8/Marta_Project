@@ -58,7 +58,7 @@
         </v-flex>
       <v-card-actions class="text-xs-left">
         <v-flex>
-            <v-btn primary flat type="submit" v-on:click="refresh_flow_report()">REFRESH</v-btn>
+            <v-btn primary flat type="submit" v-on:click="trip_history()">REFRESH</v-btn>
           </v-flex>
       </v-card-actions>
     </v-layout>
@@ -124,9 +124,10 @@ export default {
           this.$emit('goHome')
         }
         var body = {
-          "username": this.user.auth.username
+          "username": this.user.auth.username,
+          "start_time": this.start_picker.date,
+          "end_time": this.end_picker.date
         }
-        alert(JSON.stringify(this.breezecard_select.card_id) )
 
         axios.post(url, body)
             .then((response) => {
@@ -157,6 +158,7 @@ export default {
   },
     beforeMount(){
       this.refresh_breezecards()
+      this.trip_history()
     }
 }
 </script>
