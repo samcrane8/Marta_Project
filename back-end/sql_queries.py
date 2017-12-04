@@ -224,7 +224,7 @@ class sql_queries():
 	def trip_history(username, start_time, end_time):
 		data_base = sql_queries.mysql_connection()
 		cursor = data_base.cursor()
-		to_execute = "SELECT StartTime, StartStopID, TripFare, EndStopID FROM TRIP inner join BREEZECARD on TRIP.CardID = BREEZECARD.CardID inner join USER on BREEZECARD.UName = USER.UserName where USER.UserName = '{0}' and StartTime > '{1}' and StartTime < '{2}';".format(username, start_time, end_time)
+		to_execute = "SELECT StartTime, StartStopID, TripFare, EndStopID, TRIP.CardID FROM TRIP inner join BREEZECARD on TRIP.CardID = BREEZECARD.CardID inner join USER on BREEZECARD.UName = USER.UserName where USER.UserName = '{0}' and StartTime > '{1}' and StartTime < '{2}';".format(username, start_time, end_time)
 		cursor.execute(to_execute)
 		data_get = cursor.fetchall()
 		data_base.commit()

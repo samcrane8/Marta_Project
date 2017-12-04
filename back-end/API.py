@@ -315,11 +315,12 @@ class API():
 
 		for trip in trips:
 			t={}
-			StartTime, StartStopID, TripFare, EndStopID = trip
+			StartTime, StartStopID, TripFare, EndStopID, card_id = trip
 			t["time"] = str(StartTime)
 			t["source"] = StartStopID
 			t["destination"] = TripFare
 			t["fare_paid"] = EndStopID
+			t["card_id"] = card_id
 			array_local += [t]
 
 		return_string = json.dumps(array_local, sort_keys=True, indent=4, separators=(',', ': '))
