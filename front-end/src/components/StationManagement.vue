@@ -171,6 +171,15 @@ export default {
   methods:{
   	save_station() {
   		var url = "http://54.173.144.94:5000/add_station"
+      if (Number(this.new_stat_vals.fare) === this.new_stat_vals.fare && this.new_stat_vals.fare % 1 !== 0 || Number.parseFloat(this.new_stat_vals.fare) < 0 || Number.parseFloat(this.new_stat_vals.fare) > 50) {
+        alert('Not a valid fare.')
+        return
+      }
+      if (this.new_stat_vals.station_name == '') {
+        alert('Must fill out station name.')
+        return
+      }
+
     	axios.post(url, this.new_stat_vals)
 	        .then((response) => {
 	        	this.new_station = false

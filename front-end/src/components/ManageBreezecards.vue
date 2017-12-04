@@ -46,7 +46,7 @@
 		        </v-card-text>
 		        <v-card-actions>
 				  <v-flex v-if="!new_card.visible">
-				     <v-btn flat color="blue" @click="props.expanded = false; update_card(props.item)">UPDATE</v-btn>
+				     <v-btn flat color="blue" @click="update_card(props.item, props.expanded)">UPDATE</v-btn>
 			   	</v-flex>
 			  </v-card-actions>
 	      </v-card>
@@ -118,6 +118,22 @@ export default {
         card_id: '',
         owner: this.user.auth.username,
         value: 0
+      },
+      rules: {
+        required: (value) => !!value || 'Required.',
+        email: (value) => {
+          const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid e-mail.'
+        },
+        breezecard: (value) => {
+          const pattern = /\d{16}/g
+          return pattern.test(value) || 'Invalid breezecard.'
+        },
+        notempty: (value) => {
+          /^$|\s+/
+          const pattern = /^$|\s+/
+          return pattern.test(value) || 'Cannot be empty.'
+        }
       }
     }
   },
@@ -136,17 +152,22 @@ export default {
 	          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
 	    });
     },
-    update_card(item) {
+    update_card(item, expanded) {
     	//now this is going to be run when they mount.
 	    var url = "http://54.173.144.94:5000/update_card"
     	this.card_update.owner = item.owner
       this.card_update.card_id = item.card_id
+      if (!Number.isInteger(this.card_update.value) || parseInt(this.card_update.value) < 0 || parseInt(this.card_update.value) > 1000) {
+        alert('not a valid input')
+        return
+      }
       this.card_update.value = parseInt(this.card_update.value)
     	this.card_update.value += parseInt(item.value)
 	    axios.post(url, this.card_update)
 	        .then((response) => {
 	          this.refresh_breezecards()
 	          this.card_update.value = 0
+            expanded = false; 
 	        })
 	        .catch(error => {
 	          alert('Hmmm something went wrong with our servers when fetching stations!! Sorry!')
@@ -154,6 +175,17 @@ export default {
     },
     create_new_card() {
       var url = "http://54.173.144.94:5000/add_new_card"
+
+      if (this.new_card.card_id < 0) {
+        alert('bad card value!')
+      }
+
+      const pattern = /\d{16}/
+      if (!pattern.test(this.new_card.card_id)) {
+        alert('bad breezecard id!')
+        return
+      }
+
       axios.post(url, this.new_card)
           .then((response) => {
             this.refresh_breezecards()
