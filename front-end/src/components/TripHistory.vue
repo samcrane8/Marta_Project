@@ -65,7 +65,7 @@
     <v-data-table
           :headers="headers"
             :search="search"
-          :items="items"
+          :items="trips"
           item-key="station_name"
           hide-actions
           class="elevation-1"
@@ -76,7 +76,7 @@
             <td class="text-xs-center">{{ props.item.source }}</td>
             <td class="text-xs-center">{{ props.item.destination }}</td>
             <td class="text-xs-center">{{ props.item.fare_paid }}</td>
-            <td class="text-xs-center">${{ props.item.card_id }}</td>
+            <td class="text-xs-center">{{ props.item.card_id.replace(/.(?=.{4})/g, '') }}</td>
         </tr>
         </template>
       </v-data-table>
