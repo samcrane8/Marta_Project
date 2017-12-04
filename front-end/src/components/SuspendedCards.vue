@@ -63,21 +63,13 @@ export default {
 	        { text: 'Date Suspended', value: 'date_suspended', align: 'center'},
 	        { text: 'Old Owner', value: 'old_owner', align: 'center'}
 	      ],
-	      items: [
-	        {
-	          card_id: '999',
-	          new_owner: 'Bob',
-	          date_suspended: 'Tuesday 10:23:28',
-	          old_owner: 'Alice',
-	          value: 1.0
-	        }
-	      ]
+	      items: []
 	    }
 	},
 	methods: {
 		refresh_conflicts() {
     		//now this is going to be run when they mount.
-	    	var url = "http://localhost:5000/get_conflicts"
+	    	var url = "http://54.173.144.94:5000/get_conflicts"
 	    	axios.get(url)
 		        .then((response) => {
 		          this.items = response.data
@@ -87,7 +79,7 @@ export default {
 		      });
     	},
     	assign_owner(item, resolve_to_new) {
-    		var url = "http://localhost:5000/resolve_conflict"
+    		var url = "http://54.173.144.94:5000/resolve_conflict"
     		var body = {
 						"card_id" : item.card_id,
 						"uname" : item.new_owner,

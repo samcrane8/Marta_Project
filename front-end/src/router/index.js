@@ -20,7 +20,8 @@ const routerOptions = [
 
   { path: '/manageuserbreezecards', component: 'ManageBreezecards'},
   { path: '/managetrips', component: 'ManageTrips'},
-  { path: '/passengerdashboard', component: 'PassengerDashboard'}
+  { path: '/passengerdashboard', component: 'PassengerDashboard'},
+  { path: '/triphistory', component: 'TripHistory'}
 ]
 
 const routes = routerOptions.map(route => {

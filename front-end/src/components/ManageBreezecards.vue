@@ -54,7 +54,7 @@
       </v-data-table>
       <v-card-actions>
         <v-flex v-if="!new_card.visible">
-            <v-btn flat color="blue" @click.prevent="new_card.visible = true"><v-icon>business</v-icon></v-btn>
+            <v-btn flat color="blue" @click.prevent="new_card.visible = true">CREATE CARD</v-btn>
         </v-flex>
       </v-card-actions>
     </v-card>

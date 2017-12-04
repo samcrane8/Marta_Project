@@ -221,6 +221,46 @@ class sql_queries():
 		return data_get
 
 	@staticmethod
+	def trip_history(card_id):
+		data_base = sql_queries.mysql_connection()
+		cursor = data_base.cursor()
+		to_execute = "SELECT StartTime, StartStopID, TripFare, EndStopID FROM TRIP where CardID = '{0}' and IsDoneFlag = true;".format(card_id)
+		cursor.execute(to_execute)
+		data_get = cursor.fetchall()
+		data_base.commit()
+		return data_get
+
+	@staticmethod
+	def start_trip(card_id, startstopid, trip_fare):
+		data_base = sql_queries.mysql_connection()
+		cursor = data_base.cursor()
+		to_execute = "INSERT INTO TRIP values ('{0}', CURRENT_TIMESTAMP, '{1}', '{2}', 0, Null);".format(card_id, startstopid, trip_fare)
+		cursor.execute(to_execute)
+		data_get = cursor.fetchall()
+		data_base.commit()
+		return data_get
+
+	@staticmethod
+	def end_trip(card_id, endstopid):
+		data_base = sql_queries.mysql_connection()
+		cursor = data_base.cursor()
+		to_execute = "UPDATE TRIP set IsDoneFlag = 1, EndStopID = '{0}' where CardID = '{1}' and IsDoneFlag = 0".format(endstopid, card_id)
+		cursor.execute(to_execute)
+		data_get = cursor.fetchall()
+		data_base.commit()
+		return data_get
+
+	@staticmethod
+	def get_current_trip(card_id):
+		data_base = sql_queries.mysql_connection()
+		cursor = data_base.cursor()
+		to_execute = "SELECT StartStopID, TripFare from TRIP where IsDoneFlag = 0 and CardID='{0}'".format(card_id)
+		cursor.execute(to_execute)
+		data_get = cursor.fetchone()
+		data_base.commit()
+		return data_get
+
+	@staticmethod
 	def readConfig(option):
 
 		# try catch

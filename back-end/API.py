@@ -302,6 +302,74 @@ class API():
 		return_string = json.dumps(dict_local, sort_keys=True, indent=4, separators=(',', ': '))
 		return return_string
 
+	@staticmethod
+	def trip_history():
+		parsed_json = request.get_json()
+
+		card_id = parsed_json["card_id"]
+
+		trips = sql_queries.trip_history(card_id)
+		array_local = []
+
+		for trip in trips:
+			t={}
+			StartTime, StartStopID, TripFare, EndStopID = trip
+			t["start_time"] = StartTime
+			t[""]
+
+		return_string = json.dumps(array_local, sort_keys=True, indent=4, separators=(',', ': '))
+		return return_string
+
+
+	@staticmethod
+	def start_trip():
+		parsed_json = request.get_json()
+
+		stopid = parsed_json["stopid"]
+		card_id = parsed_json["card_id"]
+		trip_fare = parsed_json["trip_fare"]
+
+		sql_queries.start_trip(card_id, stopid, trip_fare)
+		dict_local = {'code': 200}
+		return_string = json.dumps(dict_local, sort_keys=True, indent=4, separators=(',', ': '))
+		return return_string
+
+	@staticmethod
+	def end_trip():
+		parsed_json = request.get_json()
+
+		endstopid = parsed_json["endstopid"]
+		card_id = parsed_json["card_id"]
+
+		sql_queries.end_trip(card_id, endstopid)
+		dict_local = {'code': 200}
+		return_string = json.dumps(dict_local, sort_keys=True, indent=4, separators=(',', ': '))
+		return return_string
+
+	@staticmethod
+	def get_current_trip():
+		parsed_json = request.get_json()
+
+		card_id = parsed_json["card_id"]
+
+		data = sql_queries.get_current_trip(card_id)
+
+		if len(data) == 0:
+			StartStopID, TripFare = (None, None)
+		else:
+			StartStopID, TripFare = data
+
+		return_dict = {}
+		return_dict["startstopid"] = StartStopID
+		return_dict["tripfare"] = TripFare
+		return_string = json.dumps(return_dict, sort_keys=True, indent=4, separators=(',', ': '))
+		return return_string
+
+
+app.add_url_rule('/trip_history', 'trip_history', API.trip_history, methods=['POST'])
+app.add_url_rule('/start_trip', 'start_trip', API.start_trip, methods=['POST'])
+app.add_url_rule('/end_trip', 'end_trip', API.end_trip, methods=['POST'])
+app.add_url_rule('/get_current_trip', 'get_current_trip', API.get_current_trip, methods=['POST'])
 
 app.add_url_rule('/login', 'login', API.login, methods=['GET'])
 app.add_url_rule('/get_conflicts', 'get_conflicts', API.get_conflicts, methods=['GET'])

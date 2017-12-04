@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    
     <v-navigation-drawer temporary v-model="sidebar">
       <v-list>
         <v-list-tile
@@ -67,6 +66,7 @@
         passengerToolbar: [
           { title: 'Breezecards', path: '/manageuserbreezecards', icon: 'home', color: "grey"},
           { title: 'Trips', path: '/managetrips', icon: 'home', color: "grey"},
+          { title: 'Trip History', path: '/triphistory', icon: 'lock_close', color: "grey"},
           { title: 'Logout', path: '/logout', icon: 'lock_close', color: "red" }
         ],
         adminToolbar: [
