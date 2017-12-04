@@ -356,7 +356,7 @@ class API():
 		return_dict = {}
 
 		if data is None:
-			return_dict = { station: None, TripFare: None}
+			return_dict = { "station": None, "TripFare": None}
 		else:
 			StopID, EntryFare, IsOpenFlagI, StationName, IsBusFlag, roads, TripFare = data
 			s={}

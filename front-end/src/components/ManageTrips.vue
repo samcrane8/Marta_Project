@@ -133,9 +133,9 @@ export default {
 	    	var url = "http://54.173.144.94:5000/start_trip"
 
 	    	var body = {
-				"stopid": station_start_select.stop_id,
-				"card_id": breezecard_select.card_id,
-				"trip_fare": station_start_select.fare
+				"stopid": this.station_start_select.stop_id,
+				"card_id": this.breezecard_select.card_id,
+				"trip_fare": this.station_start_select.fare
 			}
 
 	    	axios.post(url, body)
@@ -153,8 +153,8 @@ export default {
 			var url = "http://54.173.144.94:5000/end_trip"
 
 			var body = {
-				"endstopid": station_end_select.stop_id,
-				"card_id": breezecard_select.card_id
+				"endstopid": this.station_end_select.stop_id,
+				"card_id": this.breezecard_select.card_id
 			}
 
 			axios.post(url, body)
@@ -168,15 +168,15 @@ export default {
 		      });
 	    }, 
 	    get_current_trip() {
-	    	alert('it did it')
 			var url = "http://54.173.144.94:5000/get_current_trip"
 
 			var body = {
-				card_id: breezecard_select.card_id
+				"card_id": this.breezecard_select.card_id
 			}
 
 			axios.post(url, body)
 		        .then((response) => {
+		          alert(JSON.stringify(response.data) )
 		          station = response.data["station"]
 		          tripfare = response.data["tripfare"]
 		          if (station == null) {
